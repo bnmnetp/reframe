@@ -7,7 +7,7 @@ setup(
     name='cImage',
     description='Relational algebra on top of pandas DataFrames ',
     version='1.0.0',
-    py_modules = ['relations'],
+    py_modules = ['reframe'],
     author = 'Brad Miller',
     author_email = 'bonelake@mac.com',
     install_requires= ['pandas>=0.16.0'],
