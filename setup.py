@@ -4,8 +4,8 @@ from setuptools import setup
 #    dependencies = [l.strip() for l in fh]
 
 setup(
-    name='cImage',
-    description='Relational algebra on top of pandas DataFrames ',
+    name='reframe',
+    description='Relational algebra on top of Pandas DataFrames ',
     version='1.0.0',
     py_modules = ['reframe'],
     author = 'Brad Miller',
