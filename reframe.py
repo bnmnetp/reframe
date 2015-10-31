@@ -80,8 +80,8 @@ class Relation(pd.DataFrame):
         """
         return Relation(super().query(q).drop_duplicates())
 
-    def sort(self, *args):
-        return Relation(super().sort(*args))
+    def sort(self, *args, **kwargs):
+        return Relation(super().sort(*args, **kwargs))
 
     def intersect(self, other):
         if sorted(self.columns) != sorted(other.columns):
@@ -137,7 +137,6 @@ class GroupWrap(pd.core.groupby.DataFrameGroupBy):
         >>> from reframe import Relation
         >>> country = Relation('country.csv')
         >>> country.groupby(['continent']).count('name')
-
                continent  count_name
         0         Africa          58
         1     Antarctica           5
@@ -172,7 +171,7 @@ class GroupWrap(pd.core.groupby.DataFrameGroupBy):
         return Relation(res.filteragg(res, col))
 
 if __name__ == '__main__':
-    # country = Relation('/Users/millbr02/Classes/DB/Notebooks/country.csv')
+    country = Relation('country.csv')
     # print(country.head())
     # print(country.project(['code','name','indepyear']).head())
     # print(country.sort(['indepyear']).query('indepyear < 1200').project(['name','indepyear']))
@@ -186,3 +185,4 @@ if __name__ == '__main__':
     # print(country.groupby('region').max('population'))
     import doctest
     doctest.testmod()
+    print(country.sort(['indepyear'], ascending=False).query('indepyear < 1200').project(['name','indepyear']))
