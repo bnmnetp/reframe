@@ -2,6 +2,8 @@ import pandas as pd
 import warnings
 warnings.filterwarnings('ignore')
 
+__all__ = ['Relation','GroupWrap']
+
 class Relation(pd.DataFrame):
     """Create a Relation from a csv file of data for use with relational operators
 
@@ -147,6 +149,47 @@ class Relation(pd.DataFrame):
             raise ValueError("Relations must be Union compatible")
         else:
             return Relation(pd.merge(self,other,how='inner',on=list(self.columns)))
+
+    def njoin(self, other):
+        """Create a new relation that is the intersection of the two given relations
+
+        In order to compute the intersection the relations must be union compatible.  That is they must
+        have exactly the same columns.  This may require some projecting and renaming.
+
+        :param other:  The relation to compute the intersection with.
+        :return:
+
+        :Example:
+
+        >>> from reframe import Relation
+        >>> country = Relation('country.csv')
+        >>> country.query('continent == "Africa"').project(['name', 'region']).njoin(country.query('region == "Western Africa"').project(['name', 'region']))
+                     name          region
+        0           Benin  Western Africa
+        1    Burkina Faso  Western Africa
+        2          Gambia  Western Africa
+        3           Ghana  Western Africa
+        4          Guinea  Western Africa
+        5   Guinea-Bissau  Western Africa
+        6      Cape Verde  Western Africa
+        7         Liberia  Western Africa
+        8            Mali  Western Africa
+        9      Mauritania  Western Africa
+        10          Niger  Western Africa
+        11        Nigeria  Western Africa
+        12  Côte d'Ivoire  Western Africa
+        13   Saint Helena  Western Africa
+        14        Senegal  Western Africa
+        15   Sierra Leone  Western Africa
+        16           Togo  Western Africa
+        >>>
+        """
+        col_list = [x for x in self.columns if x in other.columns]
+        if not col_list:
+            raise ValueError("The two relations must have some columns in common")
+        return Relation(pd.merge(self,other,how='inner',on=list(col_list)))
+
+
 
     def union(self,other):
         """ Take two Relations with the same columns and put them together top to bottom
