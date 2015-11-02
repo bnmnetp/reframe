@@ -13,7 +13,7 @@ setup(
     install_requires= ['pandas>=0.16.0'],
     include_package_data = False,
     license='GPL',
-    url = 'https://github.com/bnmnetp/relation',
+    url = 'https://github.com/bnmnetp/reframe',
     keywords = ['database', 'relational'], # arbitrary keywords
     classifiers=('Development Status :: 5 - Production/Stable',
                    'Environment :: Console',
