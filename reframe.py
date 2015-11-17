@@ -316,7 +316,7 @@ class Relation(pd.DataFrame):
         4               Algeria
         >>>
         """
-        return Relation(super().rename(columns={old:new}))
+        return Relation(super().rename(columns={old:new}).drop_duplicates())
 
     def cartesian_product(self,other):
         self['__cartkey__'] = 1
@@ -328,6 +328,38 @@ class Relation(pd.DataFrame):
         return Relation(res.drop_duplicates())
 
     def groupby(self,cols):
+        """ Collapse a relation containing one row per unique value in the given group by attributes.
+
+        The groupby operator is always used in conjunction with an aggregate operator.
+
+        * count
+        * sum
+        * mean
+        * median
+        * min
+        * max
+
+        :param cols: A list of columns to group on
+        :return: A GroupWrap object for one of the aggregate operators to work on.
+
+
+        :Example:
+
+        How many countries are in each continent?
+
+        >>> from reframe import Relation
+        >>> country = Relation('country.csv')
+        >>> country.groupby(['continent']).count('name')
+               continent  count_name
+        0         Africa          58
+        1     Antarctica           5
+        2           Asia          51
+        3         Europe          46
+        5        Oceania          28
+        6  South America          14
+
+
+        """
         res = super().groupby(cols)
         return GroupWrap(res,cols)
 
