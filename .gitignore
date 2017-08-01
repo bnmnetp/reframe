@@ -59,4 +59,8 @@ docs/_build/
 # PyBuilder
 target/
 
+# IDE cruft
+.vscode
+.idea
+
 # Created by .ignore support plugin (hsz.mobi)
