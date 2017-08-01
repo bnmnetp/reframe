@@ -109,7 +109,7 @@ class Relation(pd.DataFrame):
 
         """
 
-        return Relation(super().sort(*args, **kwargs))
+        return Relation(super().sort_values(*args, **kwargs))
 
     def intersect(self, other):
         """Create a new relation that is the intersection of the two given relations
